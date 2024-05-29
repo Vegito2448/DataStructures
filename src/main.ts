@@ -12,19 +12,24 @@ let fileSystem = new Tree<string>();
 
 console.log(`🚀 ~ fileSystem:`, fileSystem);
 
-let newNode = new TreeNode<string>('Team');
+let newNode = new TreeNode<string>('My Computer');
 
 console.log(`🚀 ~ newNode:`, newNode);
 
 fileSystem.root = newNode;
 
 
-fileSystem.insetByPath('C:');
+fileSystem.insertByPath('C:');
 
-fileSystem.insetByPath('D:');
+fileSystem.insertByPath('D:');
+fileSystem.insertByPath('Data', 'D:');
 
-fileSystem.insetByPath('Users', 'C:');
-fileSystem.insetByPath('Data', 'D:');
+fileSystem.insertByPath('Users', 'C:');
+fileSystem.insertByPath('Windows', 'C:');
+fileSystem.insertByPath('Peña', 'C:/Users');
+fileSystem.insertByPath('Desktop', 'C:/Users/Peña');
+fileSystem.insertByPath('Documents', 'C:/Users/Peña');
+fileSystem.insertByPath('Studying Material', 'C:/Users/Peña/Documents');
 
 
 

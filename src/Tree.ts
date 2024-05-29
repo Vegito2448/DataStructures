@@ -19,74 +19,31 @@ class TreeNode<T> {
 class Tree<T> {
   constructor(public root: TreeNode<T> | null = null) { }
 
-  insetByPath(value: T, path?: Array<T> | T) {
+  insertByPath(value: T, path?: string) {
 
-    if (!this.root) {
-      this.root = new TreeNode(value);
-      return;
+    let selectedNode = this.selectedByPath(path);
+
+    if (!selectedNode) return;
+
+    selectedNode.addChild(value);
+
+    return selectedNode;
+  }
+
+  selectedByPath(path?: string) {
+    let selectedNode = this.root;
+    if (!selectedNode || !path) return selectedNode;
+    let pathArray = path ? path.split('/') : [];
+
+    for (let i = 0; i < pathArray.length; i++) {
+      let child = selectedNode?.getChildByValue(pathArray[i] as T);
+      if (child)
+        selectedNode = child;
+      else
+        throw new Error(`Path not found: ${path} at ${pathArray[i]}`);
     }
 
-    if (!path || (Array.isArray(path) && !path.length))
-      this.root.addChild(value);
-
-    if (!Array.isArray(path)) {
-
-      if (path instanceof TreeNode) {
-
-        path.addChild(value);
-
-      } else {
-
-        if (typeof path === 'string' && path.includes('/')) {
-
-          const splitedPath = path.split('/');
-
-          if (splitedPath.length === 1) {
-            this.root.addChild(value);
-            return;
-          }
-
-
-        }
-        this.root.addChild(value);
-
-      }
-
-    } else if (Array.isArray(path)) {
-      const firstItemType = typeof path[0];
-
-      const isPathInstanceOfSameType = path.every(item => typeof item === firstItemType);
-
-
-      if (!isPathInstanceOfSameType) {
-        console.error('The path must be of the same type');
-        return;
-      }
-
-      const lastElement = path.at(-1);
-
-      if (lastElement instanceof TreeNode) {
-
-        lastElement.addChild(value);
-
-      } else {
-
-      }
-
-
-
-
-
-
-    }
-
-
-
-
-    // if (path === 'C:') {
-    //   let node = this.root?.getChildByValue(path);
-    //   node?.addChild(value);
-    // }
+    return selectedNode;
   }
 
 
